@@ -1,0 +1,6 @@
+{
+	"shell_cmd": "start cmd /c \"$file & pause\"",
+	"file_regex": "^(...*?):([0-9]*):?([0-9]*)",
+	"selector": "source.ruby",
+	"encoding": "gbk"
+}
