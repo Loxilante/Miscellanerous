@@ -1,82 +1,191 @@
 
 using namespace std;
 
-// cycle macro
+// repeat macro
 #define rep(i, l, r) for(register int i = l; i < r; i++)
 #define hrp(i, l, r) for(register int i = l; i <= r; i++)
 #define rev(i, r, l) for(register int i = r; i >= l; i--)
-
+#define sp system("pause")  
 //typedef
 typedef long long ll;
 // typedef pair<int, int> pii;
 
-// Optimize
-/*
-#pragma GCC optimize(3)
-#pragma GCC target("avx")
-#pragma GCC optimize("Ofast")
-#pragma GCC optimize("inline")
-#pragma GCC optimize("-fgcse")
-#pragma GCC optimize("-fgcse-lm")
-#pragma GCC optimize("-fipa-sra")
-#pragma GCC optimize("-ftree-pre")
-#pragma GCC optimize("-ftree-vrp")
-#pragma GCC optimize("-fpeephole2")
-#pragma GCC optimize("-ffast-math")
-#pragma GCC optimize("-fsched-spec")
-#pragma GCC optimize("unroll-loops")
-#pragma GCC optimize("-falign-jumps")
-#pragma GCC optimize("-falign-loops")
-#pragma GCC optimize("-falign-labels")
-#pragma GCC optimize("-fdevirtualize")
-#pragma GCC optimize("-fcaller-saves")
-#pragma GCC optimize("-fcrossjumping")
-#pragma GCC optimize("-fthread-jumps")
-#pragma GCC optimize("-funroll-loops")
-#pragma GCC optimize("-fwhole-program")
-#pragma GCC optimize("-freorder-blocks")
-#pragma GCC optimize("-fschedule-insns")
-#pragma GCC optimize("inline-functions")
-#pragma GCC optimize("-ftree-tail-merge")
-#pragma GCC optimize("-fschedule-insns2")
-#pragma GCC optimize("-fstrict-aliasing")
-#pragma GCC optimize("-fstrict-overflow")
-#pragma GCC optimize("-falign-functions")
-#pragma GCC optimize("-fcse-skip-blocks")
-#pragma GCC optimize("-fcse-follow-jumps")
-#pragma GCC optimize("-fsched-interblock")
-#pragma GCC optimize("-fpartial-inlining")
-#pragma GCC optimize("no-stack-protector")
-#pragma GCC optimize("-freorder-functions")
-#pragma GCC optimize("-findirect-inlining")
-#pragma GCC optimize("-fhoist-adjacent-loads")
-#pragma GCC optimize("-frerun-cse-after-loop")
-#pragma GCC optimize("inline-small-functions")
-#pragma GCC optimize("-finline-small-functions")
-#pragma GCC optimize("-ftree-switch-conversion")
-#pragma GCC optimize("-foptimize-sibling-calls")
-#pragma GCC optimize("-fexpensive-optimizations")
-#pragma GCC optimize("-funsafe-loop-optimizations")
-#pragma GCC optimize("inline-functions-called-once")
-#pragma GCC optimize("-fdelete-null-pointer-checks")
-#pragma GCC optimize(2)
-*/
+random_device rd;
+const bool some_is_bigger_than_all = 0;
+bool refreshed;
+inline void refresh(void)
+{
+	if (refreshed) return;
+	refreshed = 1;
+	srand(GetTickCount());
+	ll t = rand()%1000000;
+	while(t--) rd();
+}
+inline int randInt(void)
+{
+	refresh();
+	int ret;
+	do ret = rd();
+	while(ret < 0);
+	return ret;
+}
+inline int randInt(int left, int right)
+{
+	refresh();
+	if (left > right) swap(left, right);
+	return left+randInt()%(right-left+1);
+}
+inline ll randLL(void)
+{
+	refresh();
+	ll ret;
+	do ret = (ll)rd()*rd();
+	while(ret < 0);
+	return ret;
+}
+inline ll randLL(ll left, ll right)
+{
+	refresh();
+	if (left > right) swap(left, right);
+	return left+randLL()%(right-left+1);
+}
+inline double randPercent(void)
+{
+	double t2 = randInt()%(int)(1e7)/1e7;
+	while(t2 > 1) t2 /= 10;
+	return t2;
+}
+inline double randDouble(void)
+{
+	return randInt()+randPercent();
+}
+inline double randDouble(double left, double right)
+{
+	if (left > right) swap(left, right);
+	return (double)randLL(left*1e6, right*1e6)/1e6;
+}
+inline bool probability(ll some, ll all)
+{
+	if (some > all) assert(some_is_bigger_than_all);
+	return (double)some/all >= randPercent();
+}
+inline bool probability(double prob)
+{
+	return prob >= randPercent();
+}
+inline int randSigned(void)
+{
+	refresh();
+	return (probability(0.5) ? 1 : -1)*randInt();
+}
+inline int randSigned(int left, int right)
+{
+	if (left > right) swap(left, right);
+	return left+randInt()%(right-left+1);
+}
+inline ll randSignedLL(void)
+{
+	refresh();
+	return (probability(0.5) ? 1 : -1)*randLL();
+}
+inline ll randSignedLL(ll left, ll right)
+{
+	if (left > right) swap(left, right);
+	return left+randLL()%(right-left+1);
+}
+inline double randSignedDouble(void)
+{
+	refresh();
+	return (probability(0.5) ? 1 : -1)*randDouble();
+}
+inline double randSignedDouble(double left, double right)
+{
+	if (left > right) swap(left, right);
+	return (double)randSignedLL(left*1e6, right*1e6)/1e6;
+}
 
 // DEBUG
 
 // D
 namespace ts
 {
-	string toString(long long e)
+	inline string toString(short e)
 	{
 		bool t = 0;
 		string str;
-		if (e < 0) t = 1, e = -e;
-		do str += '0'+e%10, e /= 10;
-		while(e);
-		reverse(str.begin(), str.end());
-		if (t) str.insert(0, "-");
+		stringstream ss;
+		ss<<e;
+		ss>>str;
 		return str += ", ";
+	}
+	inline string toString(unsigned short e)
+	{
+		bool t = 0;
+		string str;
+		stringstream ss;
+		ss<<e;
+		ss>>str;
+		return str += ", ";
+	}
+	inline string toString(int e)
+	{
+		bool t = 0;
+		string str;
+		stringstream ss;
+		ss<<e;
+		ss>>str;
+		return str += ", ";
+	}
+	inline string toString(unsigned e)
+	{
+		bool t = 0;
+		string str;
+		stringstream ss;
+		ss<<e;
+		ss>>str;
+		return str += ", ";
+	}
+	inline string toString(ll e)
+	{
+		bool t = 0;
+		string str;
+		stringstream ss;
+		ss<<e; 
+		ss>>str;
+		return str += ", ";
+	}
+	inline string toString(unsigned long long e)
+	{
+		bool t = 0;
+		string str;
+		stringstream ss;
+		ss<<e;
+		ss>>str;
+		return str += ", ";
+	}
+	inline string toString(float e)
+	{
+		string str;
+		stringstream ss;
+		ss<<e;
+		ss>>str;
+		return str + ", ";
+	}
+	inline string toString(double e)
+	{
+		string str;
+		stringstream ss;
+		ss<<e;
+		ss>>str;
+		return str + ", ";
+	}
+	inline string toString(long double e)
+	{
+		string str;
+		stringstream ss;
+		ss<<e;
+		ss>>str;
+		return str + ", ";
 	}
 	inline string toString(string s)
 	{
@@ -98,6 +207,12 @@ namespace ts
 		for (auto& e : c) str += toString(e);
 		return str += "}, ";
 	}
+	template <class C, size_t U> inline string toString(array<C, U> c)
+	{
+		string str = "{";
+		for(int i = 0; i < c.size() && c[i]; i++) str += toString(c[i]);
+		return str += "}, ";
+	}
 	template <class C> inline string toString(set<C> c)
 	{
 		string str = "{";
@@ -106,14 +221,15 @@ namespace ts
 	}
 	template <class C> inline string toString(queue<C> c)
 	{
-		string str = "{";
-		for (auto& e : c) str += toString(e);
-		return str += "}, ";
+		vector<int> v;
+		while(!c.empty()) v.push_back(c.front()), c.pop();
+		reverse(v.begin(), v.end());
+		return toString(v);
 	}
 	template <class C> inline string toString(list<C> c)
 	{
 		string str = "{";
-		for (auto& e : c) str += toString(e);
+		for(auto it = c.begin(); it != c.end(); it++) str += toString(*it);
 		return str += "}, ";
 	}
 	template <class T, class U> inline string toString(map<T, U> c)
@@ -133,32 +249,6 @@ template <class Head, class... Tail> inline void debug(Head head, Tail... tail)
 	debug(tail...);
 }
 
-#define D(...) cerr<<"D:  ["<<#__VA_ARGS__<<"]: ", debug(__VA_ARGS__)
-
-// R
-
-inline void R(auto t, ll e)
-{
-	ll cnt = 0;
-	cout<<"R:\n\t{";
-	for(ll i = 0; i < e; i++) cout<<*(t+i)<<", ";
-	cout<<"}\n";
-}
-
-// DR
-// UNFINISHED
-
-inline void DR(auto t, ll a, ll b)
-{
-	cerr<<"R:";
-	for(ll i = 0; i < a; i++)
-	{
-		cerr<<"\n\t{";
-		for(ll j = 0; j < b; j++)
-		{
-			auto p = t+i;
-			cerr<<*(p+j)<<", ";
-		}
-		cerr<<"}";
-	}
-}
+#undef rep
+#undef hrp
+#undef rev 
