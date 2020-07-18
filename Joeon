@@ -249,6 +249,8 @@ template <class Head, class... Tail> inline void debug(Head head, Tail... tail)
 	debug(tail...);
 }
 
+#define D(...) cerr<<"D:  ["<<#__VA_ARGS__<<"]: ", debug(__VA_ARGS__)
+
 #undef rep
 #undef hrp
 #undef rev 
