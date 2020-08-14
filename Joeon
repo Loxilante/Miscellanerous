@@ -1,0 +1,254 @@
+ 
+#define cerr std::cerr 
+#define srand std::srand
+#define swap std::swap 
+
+typedef long long ll;
+typedef std::string string;
+typedef std::stringstream stringstream;
+typedef std::random_device random_device;
+
+random_device rd_rD_Rd_RD;
+const bool some_is_bigger_than_all = 0;
+bool refreshed;
+inline void refresh(void)
+{
+	if (refreshed) return;
+	refreshed = 1;
+	srand(GetTickCount());
+	ll t = rand()%1000000;
+	while(t--) rd_rD_Rd_RD();
+}
+inline int randInt(void)
+{
+	refresh();
+	int ret;
+	do ret = rd_rD_Rd_RD();
+	while(ret < 0);
+	return ret;
+}
+inline int randInt(int left, int right)
+{
+	refresh();
+	if (left > right) swap(left, right);
+	return left+randInt()%(right-left+1);
+}
+inline ll randLL(void)
+{
+	refresh();
+	ll ret;
+	do ret = (ll)rd_rD_Rd_RD()*rd_rD_Rd_RD();
+	while(ret < 0);
+	return ret;
+}
+inline ll randLL(ll left, ll right)
+{
+	refresh();
+	if (left > right) swap(left, right);
+	return left+randLL()%(right-left+1);
+}
+inline double randPercent(void)
+{
+	double t2 = randInt()%(int)(1e7)/1e7;
+	while(t2 > 1) t2 /= 10;
+	return t2;
+}
+inline double randDouble(void)
+{
+	return randInt()+randPercent();
+}
+inline double randDouble(double left, double right)
+{
+	if (left > right) swap(left, right);
+	return (double)randLL(left*1e6, right*1e6)/1e6;
+}
+inline bool probability(ll some, ll all)
+{
+	if (some > all) assert(some_is_bigger_than_all);
+	return (double)some/all >= randPercent();
+}
+inline bool probability(double prob)
+{
+	return prob >= randPercent();
+}
+inline int randSigned(void)
+{
+	refresh();
+	return (probability(0.5) ? 1 : -1)*randInt();
+}
+inline int randSigned(int left, int right)
+{
+	if (left > right) swap(left, right);
+	return left+randInt()%(right-left+1);
+}
+inline ll randSignedLL(void)
+{
+	refresh();
+	return (probability(0.5) ? 1 : -1)*randLL();
+}
+inline ll randSignedLL(ll left, ll right)
+{
+	if (left > right) swap(left, right);
+	return left+randLL()%(right-left+1);
+}
+inline double randSignedDouble(void)
+{
+	refresh();
+	return (probability(0.5) ? 1 : -1)*randDouble();
+}
+inline double randSignedDouble(double left, double right)
+{
+	if (left > right) swap(left, right);
+	return (double)randSignedLL(left*1e6, right*1e6)/1e6;
+}
+
+// DEBUG
+
+// D
+namespace ts
+{
+	inline string toString(short e)
+	{
+		bool t = 0;
+		string str;
+		stringstream ss;
+		ss<<e;
+		ss>>str;
+		return str += ", ";
+	}
+	inline string toString(unsigned short e)
+	{
+		bool t = 0;
+		string str;
+		stringstream ss;
+		ss<<e;
+		ss>>str;
+		return str += ", ";
+	}
+	inline string toString(int e)
+	{
+		bool t = 0;
+		string str;
+		stringstream ss;
+		ss<<e;
+		ss>>str;
+		return str += ", ";
+	}
+	inline string toString(unsigned e)
+	{
+		bool t = 0;
+		string str;
+		stringstream ss;
+		ss<<e;
+		ss>>str;
+		return str += ", ";
+	}
+	inline string toString(ll e)
+	{
+		bool t = 0;
+		string str;
+		stringstream ss;
+		ss<<e; 
+		ss>>str;
+		return str += ", ";
+	}
+	inline string toString(unsigned long long e)
+	{
+		bool t = 0;
+		string str;
+		stringstream ss;
+		ss<<e;
+		ss>>str;
+		return str += ", ";
+	}
+	inline string toString(float e)
+	{
+		string str;
+		stringstream ss;
+		ss<<e;
+		ss>>str;
+		return str + ", ";
+	}
+	inline string toString(double e)
+	{
+		string str;
+		stringstream ss;
+		ss<<e;
+		ss>>str;
+		return str + ", ";
+	}
+	inline string toString(long double e)
+	{
+		string str;
+		stringstream ss;
+		ss<<e;
+		ss>>str;
+		return str + ", ";
+	}
+	inline string toString(string s)
+	{
+		return '"' + s + "\", ";
+	}
+	template <class T, class U> inline string toString(std::pair<T, U> p)
+	{
+		return "(" + toString(p.first) + toString(p.second) + "), ";
+	}
+	template <size_t N> inline string toString(std::bitset<N> bs)
+	{
+		string str;
+		for (size_t i = 0; i < N; ++i) str += '0' + bs[i];
+		return str += ", ";
+	}
+	template <class C> inline string toString(std::vector<C> c)
+	{
+		string str = "{";
+		for (auto& e : c) str += toString(e);
+		return str += "}, ";
+	}
+	template <class C, size_t U> inline string toString(std::array<C, U> c)
+	{
+		string str = "{";
+		for(int i = 0; i < c.size() && c[i]; i++) str += toString(c[i]);
+		return str += "}, ";
+	}
+	template <class C> inline string toString(std::set<C> c)
+	{
+		string str = "{";
+		for (auto& e : c) str += toString(e);
+		return str += "}, ";
+	}
+	template <class C> inline string toString(std::queue<C> c)
+	{
+		std::vector<int> v;
+		while(!c.empty()) v.push_back(c.front()), c.pop();
+		reverse(v.begin(), v.end());
+		return toString(v);
+	}
+	template <class C> inline string toString(std::list<C> c)
+	{
+		string str = "{";
+		for(auto it = c.begin(); it != c.end(); it++) str += toString(*it);
+		return str += "}, ";
+	}
+	template <class T, class U> inline string toString(std::map<T, U> c)
+	{
+		string str = "{";
+		for (auto& e : c) str += toString(e);
+		return str += "}, ";
+	}
+}
+inline void debug(void)
+{
+	cerr<<'\n';
+}
+template <class Head, class... Tail> inline void debug(Head head, Tail... tail)
+{
+	cerr<<ts::toString(head);
+	debug(tail...);
+}
+
+#define D(...) cerr<<"D:  ["<<#__VA_ARGS__<<"]: ", debug(__VA_ARGS__)
+
+#undef rep
+#undef hrp
+#undef rev 
